@@ -1,4 +1,4 @@
-declare module 'react-native-aes-crypto' {
+declare module '@icure/react-native-aes-crypto' {
     type Algorithms = 'aes-128-cbc' | 'aes-192-cbc' | 'aes-256-cbc'
 
     function pbkdf2(password: string, salt: string, cost: number, length: number): Promise<string>
