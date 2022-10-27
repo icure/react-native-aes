@@ -1,6 +1,6 @@
 {
     "name": "@icure/react-native-aes-crypto",
-    "version": "2.2.4",
+    "version": "2.2.5",
     "description": "AES crypto native module for react-native",
     "main": "index.js",
     "types": "index.d.ts",
