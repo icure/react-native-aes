@@ -115,6 +115,16 @@
     return [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 }
 
++ (NSString *) encrypt64: (NSString *)cipherText key: (NSString *)key iv: (NSString *)iv algorithm: (NSString *)algorithm {
+    NSData *result = [self AESCBC:@"encrypt" data:[[NSData alloc] initWithBase64EncodedString:cipherText options:0] key:key iv:iv algorithm:algorithm];
+    return [result base64EncodedStringWithOptions:0];
+}
+
++ (NSString *) decrypt64: (NSString *)cipherText key: (NSString *)key iv: (NSString *)iv algorithm: (NSString *)algorithm {
+    NSData *result = [self AESCBC:@"decrypt" data:[[NSData alloc] initWithBase64EncodedString:cipherText options:0] key:key iv:iv algorithm:algorithm];
+    return [result base64EncodedStringWithOptions:0];
+}
+
 + (NSString *) hmac256: (NSString *)input key: (NSString *)key {
     NSData *keyData = [self fromHex:key];
     NSData* inputData = [input dataUsingEncoding:NSUTF8StringEncoding];

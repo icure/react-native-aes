@@ -38,6 +38,30 @@ RCT_EXPORT_METHOD(decrypt:(NSString *)base64 key:(NSString *)key iv:(NSString *)
     }
 }
 
+RCT_EXPORT_METHOD(encrypt64:(NSString *)base64ToEncrypt key:(NSString *)key iv:(NSString *)iv algorithm:(NSString *)algorithm
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    NSError *error = nil;
+    NSString *base64 = [AesCrypt encrypt:base64ToEncrypt key:key iv:iv algorithm:algorithm];
+    if (base64 == nil) {
+        reject(@"encrypt_fail", @"Encrypt error", error);
+    } else {
+        resolve(base64);
+    }
+}
+
+RCT_EXPORT_METHOD(decrypt64:(NSString *)base64ToDecrypt key:(NSString *)key iv:(NSString *)iv algorithm:(NSString *)algorithm
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    NSError *error = nil;
+    NSString *base64 = [AesCrypt decrypt:base64ToDecrypt key:key iv:iv algorithm:algorithm];
+    if (data == nil) {
+        reject(@"decrypt_fail", @"Decrypt failed", error);
+    } else {
+        resolve(base64);
+    }
+}
+
 RCT_EXPORT_METHOD(pbkdf2:(NSString *)password salt:(NSString *)salt
                   cost:(NSInteger)cost length:(NSInteger)length
                   resolver:(RCTPromiseResolveBlock)resolve
