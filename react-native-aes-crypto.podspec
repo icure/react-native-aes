@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.summary       = package["description"]
   s.homepage      = package["homepage"]
   s.license       = package["license"]
-  s.authors       = package["author"]["name"]
+  s.author        = package["author"]
   s.requires_arc  = true
   s.source        = { :git => package["repository"]["url"], :tag => "#{s.version}" }
   s.platform      = :ios, '9.0'
