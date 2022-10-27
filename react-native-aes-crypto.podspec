@@ -1,5 +1,9 @@
+require "json"
 
 Pod::Spec.new do |s|
+  # NPM package specification
+  package = JSON.parse(File.read(File.join(File.dirname(__FILE__), "package.json")))
+
   s.name          = 'react-native-aes-crypto'
   s.version       = '2.2.1'
   s.summary       = 'Native module for AES encryption'
