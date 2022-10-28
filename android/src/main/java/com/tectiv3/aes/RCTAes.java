@@ -75,6 +75,26 @@ public class RCTAes extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void encrypt64(String base64, String key, String iv, String algorithm, Promise promise) {
+        try {
+            String result = encrypt64(base64, key, iv);
+            promise.resolve(result);
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void decrypt64(String base64, String pwd, String iv, String algorithm, Promise promise) {
+        try {
+            String strs = decrypt64(base64, pwd, iv);
+            promise.resolve(strs);
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
+        }
+    }
+
+    @ReactMethod
     public void pbkdf2(String pwd, String salt, Integer cost, Integer length, Promise promise) {
         try {
             String strs = pbkdf2(pwd, salt, cost, length);
@@ -223,6 +243,34 @@ public class RCTAes extends ReactContextBaseJavaModule {
         cipher.init(Cipher.DECRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
         byte[] decrypted = cipher.doFinal(Base64.decode(ciphertext, Base64.NO_WRAP));
         return new String(decrypted, "UTF-8");
+    }
+
+    private static String encrypt64(String base64, String hexKey, String hexIv) throws Exception {
+        if (base64 == null || base64.length() == 0) {
+            return null;
+        }
+
+        byte[] key = Hex.decode(hexKey);
+        SecretKey secretKey = new SecretKeySpec(key, KEY_ALGORITHM);
+
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
+        byte[] encrypted = cipher.doFinal(Base64.decode(base64, Base64.NO_WRAP));
+        return Base64.encodeToString(encrypted, Base64.NO_WRAP);
+    }
+
+    private static String decrypt64(String ciphertext, String hexKey, String hexIv) throws Exception {
+        if(ciphertext == null || ciphertext.length() == 0) {
+            return null;
+        }
+
+        byte[] key = Hex.decode(hexKey);
+        SecretKey secretKey = new SecretKeySpec(key, KEY_ALGORITHM);
+
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
+        byte[] decrypted = cipher.doFinal(Base64.decode(ciphertext, Base64.NO_WRAP));
+        return Base64.encodeToString(decrypted, Base64.NO_WRAP);
     }
 
 }
