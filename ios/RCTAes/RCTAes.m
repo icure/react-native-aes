@@ -55,7 +55,7 @@ RCT_EXPORT_METHOD(decrypt64:(NSString *)base64ToDecrypt key:(NSString *)key iv:(
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSError *error = nil;
     NSString *base64 = [AesCrypt decrypt:base64ToDecrypt key:key iv:iv algorithm:algorithm];
-    if (data == nil) {
+    if (base64 == nil) {
         reject(@"decrypt_fail", @"Decrypt failed", error);
     } else {
         resolve(base64);
