@@ -10,6 +10,7 @@ npm install --save react-native-aes-crypto
 
 or
 
+
 ```sh
 yarn add react-native-aes-crypto
 ```
